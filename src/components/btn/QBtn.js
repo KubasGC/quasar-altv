@@ -91,68 +91,69 @@ export default Vue.extend({
 
   methods: {
     click (e) {
-      if (e !== void 0) {
-        if (e.defaultPrevented === true) {
-          return
-        }
+      this.$emit('click', e);
+      // if (e !== void 0) {
+      //   if (e.defaultPrevented === true) {
+      //     return
+      //   }
 
-        const el = document.activeElement
-        // focus button if it came from ENTER on form
-        // prevent the new submit (already done)
-        if (
-          this.type === 'submit' &&
-          (
-            (this.$q.platform.is.ie === true && (e.clientX < 0 || e.clientY < 0)) ||
-            (
-              el !== document.body &&
-              this.$el.contains(el) === false &&
-              // required for iOS and desktop Safari
-              el.contains(this.$el) === false
-            )
-          )
-        ) {
-          this.$el.focus()
+      //   const el = document.activeElement
+      //   // focus button if it came from ENTER on form
+      //   // prevent the new submit (already done)
+      //   if (
+      //     this.type === 'submit' &&
+      //     (
+      //       (this.$q.platform.is.ie === true && (e.clientX < 0 || e.clientY < 0)) ||
+      //       (
+      //         el !== document.body &&
+      //         this.$el.contains(el) === false &&
+      //         // required for iOS and desktop Safari
+      //         el.contains(this.$el) === false
+      //       )
+      //     )
+      //   ) {
+      //     this.$el.focus()
 
-          const onClickCleanup = () => {
-            document.removeEventListener('keydown', stopAndPrevent, true)
-            document.removeEventListener('keyup', onClickCleanup, passiveCapture)
-            this.$el !== void 0 && this.$el.removeEventListener('blur', onClickCleanup, passiveCapture)
-          }
+      //     const onClickCleanup = () => {
+      //       document.removeEventListener('keydown', stopAndPrevent, true)
+      //       document.removeEventListener('keyup', onClickCleanup, passiveCapture)
+      //       this.$el !== void 0 && this.$el.removeEventListener('blur', onClickCleanup, passiveCapture)
+      //     }
 
-          document.addEventListener('keydown', stopAndPrevent, true)
-          document.addEventListener('keyup', onClickCleanup, passiveCapture)
-          this.$el.addEventListener('blur', onClickCleanup, passiveCapture)
-        }
+      //     document.addEventListener('keydown', stopAndPrevent, true)
+      //     document.addEventListener('keyup', onClickCleanup, passiveCapture)
+      //     this.$el.addEventListener('blur', onClickCleanup, passiveCapture)
+      //   }
 
-        if (this.hasRouterLink === true) {
-          if (
-            e.ctrlKey === true ||
-            e.shiftKey === true ||
-            e.altKey === true ||
-            e.metaKey === true
-          ) {
-            // if it has meta keys, let vue-router link
-            // handle this by its own
-            return
-          }
+      //   if (this.hasRouterLink === true) {
+      //     if (
+      //       e.ctrlKey === true ||
+      //       e.shiftKey === true ||
+      //       e.altKey === true ||
+      //       e.metaKey === true
+      //     ) {
+      //       // if it has meta keys, let vue-router link
+      //       // handle this by its own
+      //       return
+      //     }
 
-          stopAndPrevent(e)
-        }
-      }
+      //     stopAndPrevent(e)
+      //   }
+      // }
 
-      const go = () => {
-        const res = this.$router[this.replace === true ? 'replace' : 'push'](this.to)
+      // const go = () => {
+      //   const res = this.$router[this.replace === true ? 'replace' : 'push'](this.to)
 
-        // vue-router now throwing error if navigating
-        // to the same route that the user is currently at
-        // https://github.com/vuejs/vue-router/issues/2872
-        if (res !== void 0 && typeof res.catch === 'function') {
-          res.catch(noop)
-        }
-      }
+      //   // vue-router now throwing error if navigating
+      //   // to the same route that the user is currently at
+      //   // https://github.com/vuejs/vue-router/issues/2872
+      //   if (res !== void 0 && typeof res.catch === 'function') {
+      //     res.catch(noop)
+      //   }
+      // }
 
       this.$emit('click', e, go)
-      this.hasRouterLink === true && e.navigate !== false && go()
+      // this.hasRouterLink === true && e.navigate !== false && go()
     },
 
     __onKeydown (e) {
